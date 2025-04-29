@@ -3,26 +3,40 @@ package br.com.primeshoes.api.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.primeshoes.api.dtos.UserCreateDTO;
 import br.com.primeshoes.api.dtos.UserResponseDTO;
 import br.com.primeshoes.api.dtos.UserUpdateDTO;
+import br.com.primeshoes.api.entities.Address;
 import br.com.primeshoes.api.entities.User;
 import br.com.primeshoes.api.mappers.UserMapper;
+import br.com.primeshoes.api.repositories.AddressRepository;
 import br.com.primeshoes.api.repositories.UserRepository;
 
 @Service
 public class UserService {
 
+
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private AddressRepository addressRepository;
 	
 	public UserResponseDTO store(UserCreateDTO userCreateDTO) {
 		
 		User user = UserMapper.toEntity(userCreateDTO);
+
 		
-		return UserMapper.toDTO(userRepository.save(user));
+		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		User userResponse = userRepository.save(user);
+		
+		Address address = new Address();
+		address.setUser(userResponse);
+		addressRepository.save(address);
+		
+		return UserMapper.toDTO(userRepository.save(userResponse));
 	}
 	
 	public List<UserResponseDTO> list(){

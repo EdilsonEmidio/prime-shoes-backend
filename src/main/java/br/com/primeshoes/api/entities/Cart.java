@@ -1,5 +1,6 @@
 package br.com.primeshoes.api.entities;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,14 +20,13 @@ public class Cart {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	public Cart() {
-		
+	public Cart() {	
 	}
 	public Cart(long id, User user) {
-		super();
 		this.id = id;
 		this.user = user;
 	}
+	
 	public long getId() {
 		return id;
 	}

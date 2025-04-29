@@ -1,6 +1,9 @@
 package br.com.primeshoes.api.entities;
 
-import java.sql.Date;
+import java.time.Instant;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,15 +25,17 @@ public class Product {
 	private String brand;
 	private String imageUrl;
 	private float rating;
-	private Date created_at;
-	private Date update_at;
+	@CreatedDate
+	private Instant created_at;
+	@LastModifiedBy
+	private Instant updated_at;
 	
 	
 	public Product() {
 	}
 
 	public Product(long id, String name, String description, float price, String category, String brand,
-			String imageUrl, float rating, Date created_at, Date update_at) {
+			String imageUrl, float rating, Instant created_at, Instant update_at) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -40,7 +45,7 @@ public class Product {
 		this.imageUrl = imageUrl;
 		this.rating = rating;
 		this.created_at = created_at;
-		this.update_at = update_at;
+		this.updated_at = update_at;
 	}
 
 	public long getId() {
@@ -98,20 +103,20 @@ public class Product {
 		this.rating = rating;
 	}
 
-	public Date getCreated_at() {
+	public Instant getCreated_at() {
 		return created_at;
 	}
 
-	public void setCreated_at(Date created_at) {
+	public void setCreated_at(Instant created_at) {
 		this.created_at = created_at;
 	}
 
-	public Date getUpdate_at() {
-		return update_at;
+	public Instant getUpdate_at() {
+		return updated_at;
 	}
 
-	public void setUpdate_at(Date update_at) {
-		this.update_at = update_at;
+	public void setUpdate_at(Instant update_at) {
+		this.updated_at = update_at;
 	}
 	
 	

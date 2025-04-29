@@ -1,9 +1,33 @@
 package br.com.primeshoes.api.repositories;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.NativeQuery;
+import org.springframework.stereotype.Repository;
 
 import br.com.primeshoes.api.entities.Product;
+import br.com.primeshoes.api.entities.ProductVariation;
 
+@Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
+    @NativeQuery("SELECT pv.* FROM product_variations pv JOIN products p ON pv.product_id = p.id WHERE p.id = :idPs")
+    public Optional<List<ProductVariation>> listProductVariation(long idP);
+    
+    @NativeQuery("SELECT pv.* FROM product_variations pv WHERE pv.id = :idPV")
+    public Optional<ProductVariation> findProductVariation(long idPV);
+    
+    @NativeQuery("SELECT pv.* FROM product_variations pv WHERE pv.product_id = :idP")
+    public Optional<List<ProductVariation>> findAllProductVariation(long idP);
+    
+    @NativeQuery("SELECT p.price FROM products p WHERE p.id =:idP")
+    public float findSubtotal(long idP);
+    
+    @NativeQuery("DELETE FROM product_variations WHERE id =:idV")
+    public void deleteVariant(long idV);
+    
+    @NativeQuery("INSERT INTO product_variation (color, size, stock, product) VALUES (pv.getColor, pv.getSize, pv.getStock, pv.getProduct)")
+    public ProductVariation saveVariation(ProductVariation pv);
 }

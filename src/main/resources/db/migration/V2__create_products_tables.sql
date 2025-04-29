@@ -1,0 +1,21 @@
+CREATE TABLE products(
+	id BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	description VARCHAR(255) NOT NULL,
+	price FLOAT NOT NULL,
+	category VARCHAR(100) NOT NULL,
+	brand VARCHAR(100) NOT NULL,
+	image_url VARCHAR(255) NOT NULL,
+	rating FLOAT NOT NULL,
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP
+);
+
+CREATE TABLE product_variations(
+	id BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	color VARCHAR(200) NOT NULL,
+	size FLOAT NOT NULL,
+	stock INT NOT NULL,
+	product_id BIGINT NOT NULL UNIQUE,
+	FOREIGN KEY (product_id) REFERENCES products(id)
+);
