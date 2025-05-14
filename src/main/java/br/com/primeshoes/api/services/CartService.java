@@ -32,61 +32,62 @@ public class CartService {
 	
 	Cart cart = CartMapper.toEntity(cartCreateDTO);
 	
-	cart.setUser(userRepository.findById(cartCreateDTO.user()).orElseThrow(
-			()-> new RuntimeException("usuario não encontrado"))
-		);
-	cartRepository.save(cart);
-	return CartMapper.toDTO(cart);
+			cart.setUser(userRepository.findById(cartCreateDTO.user()).orElseThrow(
+					()-> new RuntimeException("usuario não encontrado"))
+				);
+			cartRepository.save(cart);
+			return CartMapper.toDTO(cart);
     }
     public CartItemResponseDTO teste(CartItemCreateDTO cartItemCreateDTO) {
 	
-	return null;
+    	return null;
     }
     
     public CartItemResponseDTO addCartItem(CartItemCreateDTO cartItemCreateDTO) {
 	
-	Cart cart = cartRepository.findById(cartItemCreateDTO.cart())
-		.orElseThrow(
-			()-> new RuntimeException("Carrinho não encontrado")
-		);
-	ProductVariation productVariation = productRepository.findProductVariation(cartItemCreateDTO.productVariation())
-		.orElseThrow( ()-> new RuntimeException("produto não achado com este id"));
+		Cart cart = cartRepository.findById(cartItemCreateDTO.cart())
+			.orElseThrow(
+				()-> new RuntimeException("Carrinho não encontrado")
+			);
+		ProductVariation productVariation = productRepository.findProductVariation(cartItemCreateDTO.productVariation())
+			.orElseThrow( ()-> new RuntimeException("produto não achado com este id"));
+			
+		CartItem cartItem = CartItemMapper.toEntity(cartItemCreateDTO);
+		cartItem.setCart(cart);
+		cartItem.setProcuctVariation(productVariation);
+		cartItem.setSubtotal(productRepository.findSubtotal(productVariation.getProduct().getId()));
 		
-	CartItem cartItem = CartItemMapper.toEntity(cartItemCreateDTO);
-	cartItem.setCart(cart);
-	cartItem.setProcuctVariation(productVariation);
-	cartItem.setSubtotal(productRepository.findSubtotal(productVariation.getProduct().getId()));
-	
-	cartRepository.save(cart);
-	return CartItemMapper.toDTO(cartItem);
+		cartRepository.save(cart);
+		return CartItemMapper.toDTO(cartItem);
     }
     
     public void removeCartItem(long idCartItem) {
-	CartItem cartItem = cartRepository.findCartItem(idCartItem);
-	
-	cartRepository.deleteCartItem(cartItem.getId());
+		CartItem cartItem = cartRepository.findCartItem(idCartItem).orElseThrow(
+				()-> new RuntimeException("Carrinho não encontrado"));
+		
+		cartRepository.deleteCartItem(cartItem.getId());
     }
     
     public List<CartResponseDTO> list(){
 	
-	return cartRepository.findAll().stream().map(CartMapper::toDTO).toList();
+    	return cartRepository.findAll().stream().map(CartMapper::toDTO).toList();
     }
     public List<CartItemResponseDTO> listItems(long id){
 	
-	return cartRepository.listAllCartItem(id).stream().map(CartItemMapper::toDTO).toList();
+    	return cartRepository.listAllCartItem(id).stream().map(CartItemMapper::toDTO).toList();
     }
     
     public CartResponseDTO show(long id) {
-	
-	return CartMapper.toDTO(cartRepository.findById(id).orElseThrow(
-		()-> new RuntimeException("Usuario não encontrado com este id")
-		));
+		
+		return CartMapper.toDTO(cartRepository.findById(id).orElseThrow(
+			()-> new RuntimeException("Usuario não encontrado com este id")
+			));
     }
     
     public void destroy(long id) {
-	Cart cart = cartRepository.findById(id).orElseThrow(
-		()-> new RuntimeException("Usuario não encontrado com este id")
-		);
-	cartRepository.delete(cart);
+		Cart cart = cartRepository.findById(id).orElseThrow(
+			()-> new RuntimeException("Usuario não encontrado com este id")
+			);
+		cartRepository.delete(cart);
     }
 }

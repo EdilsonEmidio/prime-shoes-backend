@@ -1,6 +1,6 @@
 package br.com.primeshoes.api.entities;
 
-import java.sql.Date;
+import java.time.Instant;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,13 +28,13 @@ public class Review {
 	
 	private int rating;
 	private String comment;
-	private Date createdAt;
+	private Instant createdAt;
 	
 	public Review() {
 	    
 	}
 	public Review(long id, User user, ProductVariation productVariation, int rating, String comment,
-		Date createdAt) {
+		Instant createdAt) {
 	    super();
 	    this.id = id;
 	    this.user = user;
@@ -73,10 +73,10 @@ public class Review {
 	public void setComment(String comment) {
 	    this.comment = comment;
 	}
-	public Date getCreatedAt() {
+	public Instant getCreatedAt() {
 	    return createdAt;
 	}
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Instant createdAt) {
 	    this.createdAt = createdAt;
 	}
 	

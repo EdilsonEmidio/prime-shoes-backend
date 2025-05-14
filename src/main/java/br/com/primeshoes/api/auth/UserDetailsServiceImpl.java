@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import br.com.primeshoes.api.entities.User;
 import br.com.primeshoes.api.repositories.UserRepository;
 
-	@Service
-	public class UserDetailsServiceImpl implements UserDetailsService{
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService{
 
-	    private final UserRepository userRepository;
-	    
-	    public UserDetailsServiceImpl(UserRepository userRepository) {
+    private final UserRepository userRepository;
+    
+	public UserDetailsServiceImpl(UserRepository userRepository) {
 		this.userRepository = userRepository;
     }
     

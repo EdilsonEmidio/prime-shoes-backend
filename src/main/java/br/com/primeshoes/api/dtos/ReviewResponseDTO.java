@@ -1,5 +1,14 @@
 package br.com.primeshoes.api.dtos;
 
-public record ReviewResponseDTO() {
+import java.time.Instant;
+
+public record ReviewResponseDTO(
+		long id,
+		UserResponseDTO user,
+		ProductVariationResponseDTO product,
+		int rating,
+		String comment,
+		Instant createdAt
+		) {
 
 }

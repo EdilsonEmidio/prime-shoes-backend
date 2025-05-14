@@ -34,10 +34,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 	
 	return httpSecurity
-		.csrf(AbstractHttpConfigurer::disable)
+		.csrf(csrf -> csrf.disable())
+		.cors(cors ->{})
 		.authorizeHttpRequests(auth -> auth
-			.requestMatchers(ENDPOINTS)
-			.permitAll()
+			.requestMatchers(ENDPOINTS).permitAll()
 			.anyRequest().authenticated()
 		)
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

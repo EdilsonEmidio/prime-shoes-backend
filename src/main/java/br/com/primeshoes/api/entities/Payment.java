@@ -1,6 +1,6 @@
 package br.com.primeshoes.api.entities;
 
-import java.sql.Date;
+import java.time.Instant;
 
 import br.com.primeshoes.api.enuns.PaymentMethod;
 import br.com.primeshoes.api.enuns.PaymentStatus;
@@ -31,13 +31,13 @@ public class Payment {
 	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
 	private float amount;
-	private Date createdAt;
+	private Instant createdAt;
 	
 	public Payment() {
 	    
 	}
 	public Payment(long id, Order order, PaymentStatus paymentStatus, PaymentMethod paymentMethod, float amount,
-		Date createdAt) {
+		Instant createdAt) {
 	    super();
 	    this.id = id;
 	    this.order = order;
@@ -76,10 +76,10 @@ public class Payment {
 	public void setAmount(float amount) {
 	    this.amount = amount;
 	}
-	public Date getCreatedAt() {
+	public Instant getCreatedAt() {
 	    return createdAt;
 	}
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Instant createdAt) {
 	    this.createdAt = createdAt;
 	}
 	
