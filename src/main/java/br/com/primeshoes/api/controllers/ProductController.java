@@ -27,9 +27,13 @@ public class ProductController {
     private ProductService productService;
     
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> store(@RequestBody ProductCreateDTO productCreateDTO) {
-	
-    	return new ResponseEntity<>(productService.store(productCreateDTO), HttpStatus.CREATED);
+    public ResponseEntity<?> store(@RequestBody ProductCreateDTO productCreateDTO) {
+    	try {
+    		return new ResponseEntity<>(productService.store(productCreateDTO), HttpStatus.CREATED);
+    	}catch(Exception e) {
+    		return new ResponseEntity<>("Você não é vendedor",HttpStatus.BAD_REQUEST);
+    	}
+    	
     }
     
     @PostMapping("/variation")

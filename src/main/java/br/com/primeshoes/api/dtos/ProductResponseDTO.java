@@ -10,6 +10,7 @@ public record ProductResponseDTO(
 	String category,
 	String brand,
 	float rating,
+	UserResponseDTO userResponseDTO,
 	Instant created_at,
 	Instant updated_at) {
 	

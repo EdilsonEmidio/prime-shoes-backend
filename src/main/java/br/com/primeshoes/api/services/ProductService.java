@@ -11,19 +11,31 @@ import br.com.primeshoes.api.dtos.ProductVariationCreateDTO;
 import br.com.primeshoes.api.dtos.ProductVariationResponseDTO;
 import br.com.primeshoes.api.entities.Product;
 import br.com.primeshoes.api.entities.ProductVariation;
+import br.com.primeshoes.api.entities.User;
+import br.com.primeshoes.api.enuns.Role;
 import br.com.primeshoes.api.mappers.ProductMapper;
 import br.com.primeshoes.api.mappers.ProductVariationMapper;
 import br.com.primeshoes.api.repositories.ProductRepository;
+import br.com.primeshoes.api.repositories.UserRepository;
 
 @Service
 public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private UserRepository userRepository;
     
     public ProductResponseDTO store(ProductCreateDTO productCreateDTO) {
+    	User user = userRepository.findById(productCreateDTO.user()).orElseThrow(
+    			()-> new RuntimeException("usuario não encontrado"));
+    
+    	if (user.getRole() == Role.BUYER){
+    		throw new RuntimeException("Usuario não é comprador!");
+    	}
 		Product product = ProductMapper.toEntity(productCreateDTO);
 		
+		product.setUser(user);
 		return ProductMapper.toDTO(productRepository.save(product));
     }
     

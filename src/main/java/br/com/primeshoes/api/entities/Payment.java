@@ -2,6 +2,8 @@ package br.com.primeshoes.api.entities;
 
 import java.time.Instant;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import br.com.primeshoes.api.enuns.PaymentMethod;
 import br.com.primeshoes.api.enuns.PaymentStatus;
 import jakarta.persistence.Entity;
@@ -31,6 +33,7 @@ public class Payment {
 	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
 	private float amount;
+	@CreatedDate
 	private Instant createdAt;
 	
 	public Payment() {

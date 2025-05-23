@@ -21,8 +21,8 @@ public class SecurityConfig {
     private final JwtFilter jwtFilter;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private static final String[] ENDPOINTS = {
-    		"/api/users/auth",
-    		"/api/users/register"
+    		"/api/users/register",
+    		"/api/users/auth"
     };
     
     public SecurityConfig(JwtFilter jwtFilter, UserDetailsServiceImpl userDetailsServiceImpl) {
@@ -33,17 +33,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 	
-	return httpSecurity
-		.csrf(csrf -> csrf.disable())
-		.cors(cors ->{})
-		.authorizeHttpRequests(auth -> auth
-			.requestMatchers(ENDPOINTS).permitAll()
-			.anyRequest().authenticated()
-		)
-		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-		.authenticationProvider(authenticationProvider())
-		.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-		.build();
+		return httpSecurity
+			.csrf(csrf -> csrf.disable())
+			.cors(cors ->{})
+			.authorizeHttpRequests(auth -> auth
+				.requestMatchers(ENDPOINTS).permitAll()
+				.anyRequest().authenticated()
+			)
+			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.authenticationProvider(authenticationProvider())
+			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+			.build();
     }
     @Bean
     public AuthenticationProvider authenticationProvider() {

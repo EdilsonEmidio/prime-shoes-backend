@@ -7,8 +7,10 @@ CREATE TABLE products(
 	brand VARCHAR(100) NOT NULL,
 	image_url VARCHAR(255) NOT NULL,
 	rating FLOAT NOT NULL,
+	user_id BIGINT NOT NULL,
 	created_at TIMESTAMP,
-	updated_at TIMESTAMP
+	updated_at TIMESTAMP,
+	FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
 CREATE TABLE product_variations(

@@ -8,6 +8,7 @@ public record ProductCreateDTO(
 	float price,
 	String category,
 	String brand,
+	long user,
 	String imageUrl
 	) {
 

@@ -2,6 +2,8 @@ package br.com.primeshoes.api.entities;
 
 import java.time.Instant;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +30,7 @@ public class Review {
 	
 	private int rating;
 	private String comment;
+	@CreatedDate
 	private Instant createdAt;
 	
 	public Review() {
