@@ -8,7 +8,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,7 +21,8 @@ public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private static final String[] ENDPOINTS = {
     		"/api/users/register",
-    		"/api/users/auth"
+    		"/api/users/auth",
+    		"/api/users/verificar"
     };
     
     public SecurityConfig(JwtFilter jwtFilter, UserDetailsServiceImpl userDetailsServiceImpl) {

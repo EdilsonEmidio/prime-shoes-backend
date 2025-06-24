@@ -51,7 +51,16 @@ public class UserController {
 		
 		return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
 	}
-	
+	@PostMapping("/verificar")
+	public ResponseEntity<String> verificar(@RequestBody String token){
+		try{
+			String email = jwtService.extractEmail(token);
+			return new ResponseEntity<>(email,HttpStatus.OK);
+
+		}catch(Exception e) {
+			return new ResponseEntity<>("Error: "+e.getMessage(),HttpStatus.OK);
+		}
+	}
 	@PostMapping("/register")
 	public ResponseEntity<UserResponseDTO> store(@RequestBody UserCreateDTO userCreateDTO) {
 		
