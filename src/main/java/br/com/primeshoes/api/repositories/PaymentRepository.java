@@ -16,5 +16,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long>{
 	@NativeQuery("SELECT * FROM payments WHERE order_id =:id")
 	public List<Payment> listAll(@Param("id") long id);
 	
-	public Payment findByOrder(Order order);
+	public Payment findByOrder(@Param("order") Order order);
 }

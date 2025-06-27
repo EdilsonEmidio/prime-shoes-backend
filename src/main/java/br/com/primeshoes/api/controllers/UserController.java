@@ -91,9 +91,8 @@ public class UserController {
 		}
 	}
 	@PutMapping
-	public ResponseEntity<?> update(UserUpdateDTO userUpdateDTO){
+	public ResponseEntity<?> update(@RequestBody UserUpdateDTO userUpdateDTO){
 		try {
-		    
 		    return new ResponseEntity<UserResponseDTO>
 		    	(userService.update(userUpdateDTO),HttpStatus.OK);
 		}catch(Exception e) {

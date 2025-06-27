@@ -1,5 +1,7 @@
 package br.com.primeshoes.api.services;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +25,11 @@ public class AddressService {
 		this.userRepository = userRepository;
 	}
 	
-	public AddressResponseDTO findByUser(long id) {
-		User user = userRepository.findById(id).orElseThrow(
+	public AddressResponseDTO findByUser(String email) {
+		
+		User user = userRepository.findByEmail(email).orElseThrow(
 				()-> new RuntimeException("usuario não encontrado"));
+		
 		Address address = addressRepository.findByUser(user).orElseThrow(
 				()-> new RuntimeException("endereço não encontrado"));
 		
@@ -43,9 +47,17 @@ public class AddressService {
 		
 		User user = userRepository.findById(addressCreateDTO.user()).orElseThrow(()-> new RuntimeException("Usuario não encontrado"));
 		
-		Address address = AddressMapper.toEntity(addressCreateDTO);		
-		address.setUser(user);
+		Address address = addressRepository.findByUser(user).
+				orElseThrow(()->new RuntimeException("endereço não encontrado: update address"));
 		
+		address.setCity(addressCreateDTO.city());
+		address.setComplement(addressCreateDTO.complement());
+		address.setNeighborhood(addressCreateDTO.neighborhood());
+		address.setNumber(addressCreateDTO.number());
+		address.setState(addressCreateDTO.state());
+		address.setStreet(addressCreateDTO.street());
+		address.setZipcode(addressCreateDTO.zipcode());
+
 		addressRepository.save(address);
 		
 		return AddressMapper.toDTO(address);

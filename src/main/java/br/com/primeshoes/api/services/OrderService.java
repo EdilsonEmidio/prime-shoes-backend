@@ -56,6 +56,13 @@ public class OrderService {
     	return orderRepository.findAll().stream().map(OrderMapper::toDTO).toList();
     }
     
+    public List<OrderResponseDTO> listAll(String email){
+    	User user = userRepository.findByEmail(email).
+    			orElseThrow(()->new RuntimeException("usuario não encontrado: OrderService"));
+    	
+    	return orderRepository.findByUser(user).stream().map(OrderMapper::toDTO).toList();
+    }
+    
     public OrderResponseDTO show(long id) {
 	
 		return OrderMapper.toDTO(orderRepository.findById(id).orElseThrow(

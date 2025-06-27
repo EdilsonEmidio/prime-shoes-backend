@@ -1,6 +1,7 @@
 package br.com.primeshoes.api.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,10 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<List<OrderResponseDTO>> list(){
     	return new ResponseEntity<>(orderService.list(),HttpStatus.OK);
+    }
+    @GetMapping("/user/{email}")
+    public ResponseEntity<List<OrderResponseDTO>> listAll(@PathVariable Map<String,String> email){
+    	return new ResponseEntity<>(orderService.listAll(email.get("email")),HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponseDTO> show(@PathVariable long id) {

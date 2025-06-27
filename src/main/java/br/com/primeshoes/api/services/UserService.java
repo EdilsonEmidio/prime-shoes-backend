@@ -66,7 +66,10 @@ public class UserService {
 		user.setName(userUpdateDTO.name());
 		user.setEmail(userUpdateDTO.email());
 		user.setRole(userUpdateDTO.role());
-		user.setPassword(userUpdateDTO.password());
+		if(userUpdateDTO.password() != null) {
+			user.setPassword(new BCryptPasswordEncoder().encode(userUpdateDTO.password()));
+		}
+		userRepository.save(user);
 		return UserMapper.toDTO(user);
 	}
 	
