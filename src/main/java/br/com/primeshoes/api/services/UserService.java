@@ -11,6 +11,7 @@ import br.com.primeshoes.api.dtos.UserResponseDTO;
 import br.com.primeshoes.api.dtos.UserUpdateDTO;
 import br.com.primeshoes.api.entities.Address;
 import br.com.primeshoes.api.entities.User;
+import br.com.primeshoes.api.enuns.Role;
 import br.com.primeshoes.api.mappers.UserMapper;
 import br.com.primeshoes.api.repositories.AddressRepository;
 import br.com.primeshoes.api.repositories.UserRepository;
@@ -28,10 +29,10 @@ public class UserService {
 		
 		User user = UserMapper.toEntity(userCreateDTO);
 
-		
+		user.setRole(Role.BUYER);
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		User userResponse = userRepository.save(user);
-		
+	
 		Address address = new Address();
 		address.setUser(userResponse);
 		addressRepository.save(address);
@@ -44,12 +45,17 @@ public class UserService {
 		return userRepository.findAll().stream().map(UserMapper::toDTO).toList();
 	}
 	
-	public UserResponseDTO show(long id) {
+	public UserResponseDTO find(long id) {
 		User user = userRepository.findById(id).orElseThrow(
 			() -> new RuntimeException("Usuario não foi encontrado com este id")
 			);
 		return UserMapper.toDTO(user);
-		
+	}
+	public User findByEmail(String email) {
+		User user = userRepository.findByEmail(email).orElseThrow(
+			() -> new RuntimeException("Usuario não foi encontrado com este email")
+			);
+		return user;
 	}
 	public UserResponseDTO update(UserUpdateDTO userUpdateDTO) {
 			

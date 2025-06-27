@@ -1,11 +1,12 @@
 package br.com.primeshoes.api.entities;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import br.com.primeshoes.api.enuns.PaymentMethod;
 import br.com.primeshoes.api.enuns.PaymentStatus;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -33,14 +34,15 @@ public class Payment {
 	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
 	private float amount;
-	@CreatedDate
-	private Instant createdAt;
+	@CreationTimestamp
+	@Column(updatable = false)
+	private LocalDateTime createdAt;
 	
 	public Payment() {
 	    
 	}
 	public Payment(long id, Order order, PaymentStatus paymentStatus, PaymentMethod paymentMethod, float amount,
-		Instant createdAt) {
+		LocalDateTime createdAt) {
 	    super();
 	    this.id = id;
 	    this.order = order;
@@ -79,10 +81,10 @@ public class Payment {
 	public void setAmount(float amount) {
 	    this.amount = amount;
 	}
-	public Instant getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 	    return createdAt;
 	}
-	public void setCreatedAt(Instant createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 	    this.createdAt = createdAt;
 	}
 	

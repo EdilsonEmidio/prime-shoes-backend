@@ -1,10 +1,12 @@
 package br.com.primeshoes.api.entities;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,17 +32,18 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	@CreatedDate
-	private Instant created_at;
-	@LastModifiedBy
-	private Instant updated_at;
+	@CreationTimestamp
+	@Column(updatable = false)
+	private LocalDateTime created_at;
+	@UpdateTimestamp
+	private LocalDateTime updated_at;
 	
 	
 	public Product() {
 	}
 
 	public Product(long id, String name, String description, float price, String category, String brand,
-			String imageUrl, float rating, Instant created_at, Instant update_at) {
+			String imageUrl, float rating, LocalDateTime created_at, LocalDateTime update_at) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -117,19 +120,19 @@ public class Product {
 		this.user = user;
 	}
 
-	public Instant getCreated_at() {
+	public LocalDateTime getCreated_at() {
 		return created_at;
 	}
 
-	public void setCreated_at(Instant created_at) {
+	public void setCreated_at(LocalDateTime created_at) {
 		this.created_at = created_at;
 	}
 
-	public Instant getUpdate_at() {
+	public LocalDateTime getUpdate_at() {
 		return updated_at;
 	}
 
-	public void setUpdate_at(Instant update_at) {
+	public void setUpdate_at(LocalDateTime update_at) {
 		this.updated_at = update_at;
 	}
 	

@@ -17,8 +17,9 @@ public class AddressMapper {
 				address.getCity(),
 				address.getState(), 
 				address.getComplement(), 
-				address.getZipcode(), 
-				address.getUser());
+				address.getZipcode(),
+				UserMapper.toDTO(address.getUser())
+				);
 		
 		return addressResponseDTO;
 	}

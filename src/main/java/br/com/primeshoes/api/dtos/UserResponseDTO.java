@@ -1,6 +1,6 @@
 package br.com.primeshoes.api.dtos;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 import br.com.primeshoes.api.enuns.Role;
 
@@ -9,7 +9,7 @@ public record UserResponseDTO(
 	String name,
 	String email,
 	Role role,
-	Instant created_at,
-	Instant updated_at) {
+	LocalDateTime created_at,
+	LocalDateTime updated_at) {
 
 }

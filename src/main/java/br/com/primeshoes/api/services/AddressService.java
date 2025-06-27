@@ -16,8 +16,28 @@ public class AddressService {
 
 	@Autowired
 	private AddressRepository addressRepository; 
-	@Autowired
+	
 	private UserRepository userRepository;
+	
+	public AddressService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+	
+	public AddressResponseDTO findByUser(long id) {
+		User user = userRepository.findById(id).orElseThrow(
+				()-> new RuntimeException("usuario não encontrado"));
+		Address address = addressRepository.findByUser(user).orElseThrow(
+				()-> new RuntimeException("endereço não encontrado"));
+		
+		return AddressMapper.toDTO(address);		
+	}
+	
+	public AddressResponseDTO findByUser(User user) {
+		Address address = addressRepository.findByUser(user).orElseThrow(
+				()-> new RuntimeException("endereço não encontrado"));
+		
+		return AddressMapper.toDTO(address);		
+	}
 	
 	public AddressResponseDTO update(AddressCreateDTO addressCreateDTO) {
 		

@@ -22,7 +22,7 @@ public class SecurityConfig {
     private static final String[] ENDPOINTS = {
     		"/api/users/register",
     		"/api/users/auth",
-    		"/api/users/verificar"
+    		"/api/users/find"
     };
     
     public SecurityConfig(JwtFilter jwtFilter, UserDetailsServiceImpl userDetailsServiceImpl) {

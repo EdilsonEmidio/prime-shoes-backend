@@ -1,8 +1,9 @@
 package br.com.primeshoes.api.entities;
 
-import java.time.Instant;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import br.com.primeshoes.api.enuns.OrderStatus;
 import br.com.primeshoes.api.enuns.PaymentMethod;
@@ -34,16 +35,16 @@ public class Order {
 	private OrderStatus status;
 	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
-	@CreatedDate
-	private Instant created_at;
-	@LastModifiedBy
-	private Instant updated_at;
+	@CreationTimestamp
+	private LocalDateTime created_at;
+	@UpdateTimestamp
+	private LocalDateTime updated_at;
 	
 	public Order() {	
 	}
 	
-	public Order(long id, User user, float totalPrice, OrderStatus status, PaymentMethod paymentMethod, Instant created_at,
-			Instant updated_at) {
+	public Order(long id, User user, float totalPrice, OrderStatus status, PaymentMethod paymentMethod, LocalDateTime created_at,
+			LocalDateTime updated_at) {
 		this.id = id;
 		this.user = user;
 		this.totalPrice = totalPrice;
@@ -82,16 +83,16 @@ public class Order {
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
-	public Instant getCreated_at() {
+	public LocalDateTime getCreated_at() {
 		return created_at;
 	}
-	public void setCreated_at(Instant created_at) {
+	public void setCreated_at(LocalDateTime created_at) {
 		this.created_at = created_at;
 	}
-	public Instant getUpdated_at() {
+	public LocalDateTime getUpdated_at() {
 		return updated_at;
 	}
-	public void setUpdated_at(Instant updated_at) {
+	public void setUpdated_at(LocalDateTime updated_at) {
 		this.updated_at = updated_at;
 	}
 	

@@ -1,6 +1,6 @@
 package br.com.primeshoes.api.dtos;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 import br.com.primeshoes.api.entities.Order;
 import br.com.primeshoes.api.enuns.PaymentMethod;
@@ -12,7 +12,7 @@ public record PaymentResponseDTO(
 		PaymentStatus paymentStatus,
 		PaymentMethod paymentMethod,
 		float amount,
-		Instant createdAt
+		LocalDateTime createdAt
 		) {
 
 }

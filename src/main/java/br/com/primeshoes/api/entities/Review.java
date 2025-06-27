@@ -1,8 +1,8 @@
 package br.com.primeshoes.api.entities;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,14 +30,14 @@ public class Review {
 	
 	private int rating;
 	private String comment;
-	@CreatedDate
-	private Instant createdAt;
+	@CreationTimestamp
+	private LocalDateTime createdAt;
 	
 	public Review() {
 	    
 	}
 	public Review(long id, User user, ProductVariation productVariation, int rating, String comment,
-		Instant createdAt) {
+		LocalDateTime createdAt) {
 	    super();
 	    this.id = id;
 	    this.user = user;
@@ -76,10 +76,10 @@ public class Review {
 	public void setComment(String comment) {
 	    this.comment = comment;
 	}
-	public Instant getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 	    return createdAt;
 	}
-	public void setCreatedAt(Instant createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 	    this.createdAt = createdAt;
 	}
 	

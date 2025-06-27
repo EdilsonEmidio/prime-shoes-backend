@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.primeshoes.api.auth.JwtService;
+import br.com.primeshoes.api.dtos.AddressResponseDTO;
 import br.com.primeshoes.api.dtos.AuthDTO;
 import br.com.primeshoes.api.dtos.UserCreateDTO;
 import br.com.primeshoes.api.dtos.UserResponseDTO;
 import br.com.primeshoes.api.dtos.UserUpdateDTO;
 import br.com.primeshoes.api.entities.User;
+import br.com.primeshoes.api.services.AddressService;
 import br.com.primeshoes.api.services.UserService;
 
 @RestController
@@ -34,10 +36,13 @@ public class UserController {
 	private UserService userService;
 	private final AuthenticationManager authenticationManager;
 	private final JwtService jwtService;
+	private AddressService addressService;
 	
-	public UserController(AuthenticationManager authenticationManager, JwtService jwtService) {
+	public UserController(AuthenticationManager authenticationManager, JwtService jwtService,
+			AddressService addressService) {
 		this.authenticationManager = authenticationManager;
 		this.jwtService = jwtService;
+		this.addressService = addressService;
 	}
 	
 	@PostMapping("/auth")
@@ -51,11 +56,15 @@ public class UserController {
 		
 		return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
 	}
-	@PostMapping("/verificar")
-	public ResponseEntity<String> verificar(@RequestBody String token){
+	
+	@PostMapping("/find")
+	public ResponseEntity<?> findByToken(@RequestBody String token){
 		try{
 			String email = jwtService.extractEmail(token);
-			return new ResponseEntity<>(email,HttpStatus.OK);
+			User user= userService.findByEmail(email);
+			AddressResponseDTO address = addressService.findByUser(user);
+			
+			return new ResponseEntity<>(address,HttpStatus.OK);
 
 		}catch(Exception e) {
 			return new ResponseEntity<>("Error: "+e.getMessage(),HttpStatus.OK);
@@ -73,22 +82,22 @@ public class UserController {
 	}
 	
 	@GetMapping("/{id_user}")
-	public ResponseEntity<UserResponseDTO> show(@PathVariable long id_user){
+	public ResponseEntity<?> show(@PathVariable long id_user){
 		
 		try {
-			return new ResponseEntity<UserResponseDTO>(userService.show(id_user), HttpStatus.OK);
+			return new ResponseEntity<UserResponseDTO>(userService.find(id_user), HttpStatus.OK);
 		}catch(Exception e){
-			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);	
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);	
 		}
 	}
 	@PutMapping
-	public ResponseEntity<UserResponseDTO> update(UserUpdateDTO userUpdateDTO){
+	public ResponseEntity<?> update(UserUpdateDTO userUpdateDTO){
 		try {
 		    
 		    return new ResponseEntity<UserResponseDTO>
 		    	(userService.update(userUpdateDTO),HttpStatus.OK);
 		}catch(Exception e) {
-		    return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+		    return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
 	 

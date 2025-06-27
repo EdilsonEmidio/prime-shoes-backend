@@ -1,15 +1,16 @@
 package br.com.primeshoes.api.entities;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.primeshoes.api.enuns.Role;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,15 +32,16 @@ public class User implements UserDetails{
 	private String email;
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	@CreatedDate
-	private Instant created_at;
-	@LastModifiedBy
-	private Instant updated_at;
+	@CreationTimestamp
+	@Column(updatable = false)
+	private LocalDateTime created_at;
+	@UpdateTimestamp
+	private LocalDateTime updated_at;
 	
 	public User() {
 	}
 
-	public User(long id, String name, String password, String email, Role role, Instant created_at, Instant updated_at) {
+	public User(long id, String name, String password, String email, Role role, LocalDateTime created_at, LocalDateTime updated_at) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -90,19 +92,19 @@ public class User implements UserDetails{
 		this.role = role;
 	}
 
-	public Instant getCreated_at() {
+	public LocalDateTime getCreated_at() {
 		return created_at;
 	}
 
-	public void setCreated_at(Instant created_at) {
+	public void setCreated_at(LocalDateTime created_at) {
 		this.created_at = created_at;
 	}
 	
-	public Instant getUpdated_at() {
+	public LocalDateTime getUpdated_at() {
 		return updated_at;
 	}
 
-	public void setUpdated_at(Instant updated_at) {
+	public void setUpdated_at(LocalDateTime updated_at) {
 		this.updated_at = updated_at;
 	}
 

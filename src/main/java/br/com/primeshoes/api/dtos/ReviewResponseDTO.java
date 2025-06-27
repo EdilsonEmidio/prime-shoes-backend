@@ -1,6 +1,6 @@
 package br.com.primeshoes.api.dtos;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 public record ReviewResponseDTO(
 		long id,
@@ -8,7 +8,7 @@ public record ReviewResponseDTO(
 		ProductVariationResponseDTO product,
 		int rating,
 		String comment,
-		Instant createdAt
+		LocalDateTime createdAt
 		) {
 
 }

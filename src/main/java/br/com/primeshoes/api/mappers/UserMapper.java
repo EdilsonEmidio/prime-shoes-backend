@@ -11,9 +11,7 @@ public class UserMapper {
 		User user = new User();
 		user.setName(userCreateDTO.name());
 		user.setEmail(userCreateDTO.email());
-		user.setPassword(userCreateDTO.password());
-		user.setRole(userCreateDTO.role());
-		
+		user.setPassword(userCreateDTO.password());		
 		return user;
 	}
 	public static UserResponseDTO toDTO(User user) {

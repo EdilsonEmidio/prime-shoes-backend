@@ -1,6 +1,5 @@
 package br.com.primeshoes.api.dtos;
 
-import br.com.primeshoes.api.entities.User;
 
 public record AddressResponseDTO(
 		long id,
@@ -11,7 +10,7 @@ public record AddressResponseDTO(
 	    String state,
 	    String complement,
 	    long zipcode,
-	    User user
+	    UserResponseDTO user
 		) {
 
 }
