@@ -44,8 +44,9 @@ public class ProductController {
     
     @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> list(){
-	return new ResponseEntity<>(productService.list(), HttpStatus.OK);
+    	return new ResponseEntity<>(productService.list(), HttpStatus.OK);
     }
+    
     @GetMapping("/variation/{id}")
     public ResponseEntity<List<ProductVariationResponseDTO>> listVariations(@PathVariable long id){
     	return new ResponseEntity<>(productService.listVariations(id), HttpStatus.OK);

@@ -25,6 +25,7 @@ import br.com.primeshoes.api.dtos.UserCreateDTO;
 import br.com.primeshoes.api.dtos.UserResponseDTO;
 import br.com.primeshoes.api.dtos.UserUpdateDTO;
 import br.com.primeshoes.api.entities.User;
+import br.com.primeshoes.api.mappers.UserMapper;
 import br.com.primeshoes.api.services.AddressService;
 import br.com.primeshoes.api.services.UserService;
 
@@ -36,13 +37,11 @@ public class UserController {
 	private UserService userService;
 	private final AuthenticationManager authenticationManager;
 	private final JwtService jwtService;
-	private AddressService addressService;
 	
 	public UserController(AuthenticationManager authenticationManager, JwtService jwtService,
 			AddressService addressService) {
 		this.authenticationManager = authenticationManager;
 		this.jwtService = jwtService;
-		this.addressService = addressService;
 	}
 	
 	@PostMapping("/auth")
@@ -58,13 +57,11 @@ public class UserController {
 	}
 	
 	@PostMapping("/find")
-	public ResponseEntity<?> findByToken(@RequestBody String token){
+	public ResponseEntity<?> findByEmail(@RequestBody Map<String,String> email){
 		try{
-			String email = jwtService.extractEmail(token);
-			User user= userService.findByEmail(email);
-			AddressResponseDTO address = addressService.findByUser(user);
+			User user= userService.findByEmail(email.get("email"));
 			
-			return new ResponseEntity<>(address,HttpStatus.OK);
+			return new ResponseEntity<>(UserMapper.toDTO(user),HttpStatus.OK);
 
 		}catch(Exception e) {
 			return new ResponseEntity<>("Error: "+e.getMessage(),HttpStatus.OK);

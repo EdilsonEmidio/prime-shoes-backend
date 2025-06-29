@@ -12,7 +12,6 @@ public class ProductMapper {
 		product.setDescription(productCreateDTO.description());
 		product.setName(productCreateDTO.name());
 		product.setPrice(productCreateDTO.price());
-		product.setImageUrl(productCreateDTO.imageUrl());
 	
 		return product;
 	}
@@ -26,6 +25,7 @@ public class ProductMapper {
 			product.getCategory(),
 			product.getBrand(),
 			product.getRating(),
+			product.getImageUrl(),
 			UserMapper.toDTO(product.getUser()),
 			product.getCreated_at(),
 			product.getUpdate_at());

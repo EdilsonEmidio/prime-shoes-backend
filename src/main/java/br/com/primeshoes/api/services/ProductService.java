@@ -34,7 +34,7 @@ public class ProductService {
     		throw new RuntimeException("Usuario não é comprador!");
     	}
 		Product product = ProductMapper.toEntity(productCreateDTO);
-		
+		//mexe aqui oh
 		product.setUser(user);
 		return ProductMapper.toDTO(productRepository.save(product));
     }
@@ -56,6 +56,8 @@ public class ProductService {
     public List<ProductResponseDTO> list(){
     	return productRepository.findAll().stream().map(ProductMapper::toDTO).toList();
     }
+    
+    
     public List<ProductVariationResponseDTO> listVariations(long id){
     	return productRepository.findAllProductVariation(id).orElseThrow(
     			(	)-> new RuntimeException("impossivel achar todos os produtos")
