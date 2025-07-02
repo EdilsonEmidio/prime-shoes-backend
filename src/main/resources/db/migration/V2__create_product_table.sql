@@ -5,7 +5,7 @@ CREATE TABLE products(
 	price FLOAT NOT NULL,
 	category VARCHAR(100) NOT NULL,
 	brand VARCHAR(100) NOT NULL,
-	image_url VARCHAR(255) NOT NULL,
+	image_url VARCHAR(255),
 	rating FLOAT NOT NULL,
 	user_id BIGINT NOT NULL,
 	created_at TIMESTAMP,

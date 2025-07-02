@@ -18,6 +18,7 @@ import br.com.primeshoes.api.dtos.ProductResponseDTO;
 import br.com.primeshoes.api.dtos.ProductVariationCreateDTO;
 import br.com.primeshoes.api.dtos.ProductVariationResponseDTO;
 import br.com.primeshoes.api.services.ProductService;
+import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api/products")
@@ -41,14 +42,19 @@ public class ProductController {
 	
     	return new ResponseEntity<>(productService.storeProductVariation(productVariationCreateDTO), HttpStatus.CREATED);
     }
-    
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<ProductResponseDTO>> list(){
     	return new ResponseEntity<>(productService.list(), HttpStatus.OK);
     }
     
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ProductResponseDTO>> listUser(@PathVariable long id){
+    	return new ResponseEntity<>(productService.listUser(id), HttpStatus.OK);
+    }
+    
     @GetMapping("/variation/{id}")
-    public ResponseEntity<List<ProductVariationResponseDTO>> listVariations(@PathVariable long id){
+    public ResponseEntity<List<ProductVariationResponseDTO>> listVariations(@PathParam("id") long id){
+    	System.out.println(id);
     	return new ResponseEntity<>(productService.listVariations(id), HttpStatus.OK);
     }
     
@@ -67,7 +73,7 @@ public class ProductController {
 		    productService.destroy(id);
 		    return new ResponseEntity<>("deletado com sucesso!",HttpStatus.OK);
 		}catch(Exception e) {
-		    return new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);
+		    return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
 		}
     }
     @DeleteMapping("/variant/{id_product}")
@@ -76,7 +82,7 @@ public class ProductController {
 		    productService.destroyVariant(id);
 		    return new ResponseEntity<>("deletado com sucesso!",HttpStatus.OK);
 		}catch(Exception e) {
-		    return new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);
+		    return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
 		}
     }
     

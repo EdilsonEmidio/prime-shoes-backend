@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import br.com.primeshoes.api.entities.Product;
 import br.com.primeshoes.api.entities.ProductVariation;
+import br.com.primeshoes.api.entities.User;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
-    @NativeQuery("SELECT pv.* FROM product_variations pv JOIN products p ON pv.product_id = p.id WHERE p.id = :idPs")
-    public Optional<List<ProductVariation>> listProductVariation(@Param("idP") long idP);
-    
+	List<Product> findByUser(User user);
+	
     @NativeQuery("SELECT pv.* FROM product_variations pv WHERE pv.id = :idPV")
     public Optional<ProductVariation> findProductVariation(@Param("idPV") long idPV);
     

@@ -23,8 +23,12 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
-    @Autowired
+    
     private UserRepository userRepository;
+    
+    public ProductService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
     
     public ProductResponseDTO store(ProductCreateDTO productCreateDTO) {
     	User user = userRepository.findById(productCreateDTO.user()).orElseThrow(
@@ -35,6 +39,8 @@ public class ProductService {
     	}
 		Product product = ProductMapper.toEntity(productCreateDTO);
 		//mexe aqui oh
+		//product.setImageUrl(productCreateDTO.image().getName());
+		
 		product.setUser(user);
 		return ProductMapper.toDTO(productRepository.save(product));
     }
@@ -57,10 +63,16 @@ public class ProductService {
     	return productRepository.findAll().stream().map(ProductMapper::toDTO).toList();
     }
     
+    public List<ProductResponseDTO> listUser(long id){
+    	User user = userRepository.findById(id).orElseThrow(
+    			()-> new RuntimeException("usuario não encontrado: product service"));
+    	return productRepository.findByUser(user).stream().map(ProductMapper::toDTO).toList();
+    }
+    
     
     public List<ProductVariationResponseDTO> listVariations(long id){
     	return productRepository.findAllProductVariation(id).orElseThrow(
-    			(	)-> new RuntimeException("impossivel achar todos os produtos")
+    			(	)-> new RuntimeException("impossivel achar as variações")
     			).stream().map(ProductVariationMapper::toDTO).toList();
     }
     
