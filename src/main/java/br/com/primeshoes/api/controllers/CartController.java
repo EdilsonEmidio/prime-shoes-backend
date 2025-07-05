@@ -51,13 +51,19 @@ public class CartController {
 		}
     }
     
-    @GetMapping
-    public ResponseEntity<List<CartResponseDTO>> list(){
-    	return new ResponseEntity<>(cartService.list(), HttpStatus.OK);
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> existe(@PathVariable long id){
+    	try {
+    		cartService.existe(id);
+    		return new ResponseEntity<>("já existe carrinho", HttpStatus.OK);
+    	}catch (Exception e) {
+    		return new ResponseEntity<>("OK",HttpStatus.FOUND);
+    	}
+    	
     }
-    @GetMapping("/items/{id}")
+    @GetMapping("/items/{id}")//id do usuario
     public ResponseEntity<List<CartItemResponseDTO>> listItems(@PathVariable long id){
-    	return new ResponseEntity<>(cartService.listItems(id), HttpStatus.OK);
+    	return new ResponseEntity<>(cartService.listItemsCart(id), HttpStatus.OK);
     }
     
     @GetMapping("/{id}")

@@ -18,6 +18,6 @@ CREATE TABLE product_variations(
 	color VARCHAR(200) NOT NULL,
 	size FLOAT NOT NULL,
 	stock INT NOT NULL,
-	product_id BIGINT NOT NULL UNIQUE,
+	product_id BIGINT NOT NULL,
 	FOREIGN KEY (product_id) REFERENCES products(id)
 );

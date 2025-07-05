@@ -1,5 +1,6 @@
 package br.com.primeshoes.api.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +8,13 @@ import org.springframework.stereotype.Service;
 import br.com.primeshoes.api.dtos.ReviewCreateDTO;
 import br.com.primeshoes.api.dtos.ReviewResponseDTO;
 import br.com.primeshoes.api.dtos.ReviewUpdateDTO;
+import br.com.primeshoes.api.entities.Product;
 import br.com.primeshoes.api.entities.ProductVariation;
 import br.com.primeshoes.api.entities.Review;
 import br.com.primeshoes.api.entities.User;
 import br.com.primeshoes.api.mappers.ReviewMapper;
 import br.com.primeshoes.api.repositories.ProductRepository;
+import br.com.primeshoes.api.repositories.ProductVariationRepository;
 import br.com.primeshoes.api.repositories.ReviewRepository;
 import br.com.primeshoes.api.repositories.UserRepository;
 
@@ -20,10 +23,16 @@ public class ReviewService {
 
 	@Autowired
 	private ReviewRepository reviewRepository;
-	@Autowired
+	
 	private UserRepository userRepository;
-	@Autowired
 	private ProductRepository productRepository;
+	private ProductVariationRepository variationRepository;
+	
+	public ReviewService(ProductRepository productRepository, UserRepository userRepository, ProductVariationRepository variationRepository) {
+		this.productRepository = productRepository;
+		this.userRepository = userRepository;
+		this.variationRepository = variationRepository;
+	}
 	
 	
 	public ReviewResponseDTO save(ReviewCreateDTO reviewCreateDTO){
@@ -32,8 +41,8 @@ public class ReviewService {
 		User user = userRepository.findById(reviewCreateDTO.user()).orElseThrow(
 				()->new RuntimeException("usuario não encontrado"));
 		
-		ProductVariation productVariation = productRepository.findProductVariation(reviewCreateDTO.ProductVariation()).orElseThrow(
-				()-> new RuntimeException("Produto não encontrado"));
+		ProductVariation productVariation = variationRepository.findById(reviewCreateDTO.ProductVariation()).orElseThrow(
+				()-> new RuntimeException("variação não encontrada"));
 		
 		review.setProductVariation(productVariation);
 		review.setUser(user);
@@ -58,14 +67,20 @@ public class ReviewService {
 	
 	public List<ReviewResponseDTO> listProduct(long id_product){
 		
-		ProductVariation productVariation = productRepository.findProductVariation(id_product).orElseThrow(
-				()-> new RuntimeException("produto não encontrado"));
-		
-		List<ReviewResponseDTO> reviewResponseDTO = reviewRepository.findByProductVariation(productVariation).stream().map(ReviewMapper::toDTO).toList();
-		
-				
+		Product product = productRepository.findById(id_product).orElseThrow(
+				()->new RuntimeException("produto não encontrado"));
+		List<ProductVariation> productVariations = variationRepository.findByProduct(product);
+		List<ReviewResponseDTO> reviewResponseDTO = new ArrayList<>();
+			
+		for(ProductVariation pv : productVariations) {
+			reviewResponseDTO.addAll(
+					reviewRepository.findByProductVariation(pv).stream().map(ReviewMapper::toDTO).toList()
+					
+				);
+		}			
 		return reviewResponseDTO;
 	}
+	
 	public List<ReviewResponseDTO> listUser(long id_user){
 		
 		User user = userRepository.findById(id_user).orElseThrow(

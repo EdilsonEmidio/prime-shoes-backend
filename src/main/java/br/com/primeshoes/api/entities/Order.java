@@ -34,7 +34,7 @@ public class Order {
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 	@Enumerated(EnumType.STRING)
-	private PaymentMethod paymentMethod;
+	private PaymentMethod payment_method;
 	@CreationTimestamp
 	private LocalDateTime created_at;
 	@UpdateTimestamp
@@ -43,13 +43,13 @@ public class Order {
 	public Order() {	
 	}
 	
-	public Order(long id, User user, float totalPrice, OrderStatus status, PaymentMethod paymentMethod, LocalDateTime created_at,
+	public Order(long id, User user, float totalPrice, OrderStatus status, PaymentMethod payment_method, LocalDateTime created_at,
 			LocalDateTime updated_at) {
 		this.id = id;
 		this.user = user;
 		this.totalPrice = totalPrice;
 		this.status = status;
-		this.paymentMethod = paymentMethod;
+		this.payment_method = payment_method;
 		this.created_at = created_at;
 		this.updated_at = updated_at;
 	}
@@ -78,10 +78,10 @@ public class Order {
 		this.status = status;
 	}
 	public PaymentMethod getPaymentMethod() {
-		return paymentMethod;
+		return payment_method;
 	}
-	public void setPaymentMethod(PaymentMethod paymentMethod) {
-		this.paymentMethod = paymentMethod;
+	public void setPaymentMethod(PaymentMethod payment_method) {
+		this.payment_method = payment_method;
 	}
 	public LocalDateTime getCreated_at() {
 		return created_at;

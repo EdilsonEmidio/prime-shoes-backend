@@ -17,12 +17,6 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	
-	@NativeQuery("INSERT INTO order_items (order_id, product_variation_id,"
-			+ ", quantity, subtotal) VALUES (orderItem.getOrder, "
-			+ "orderItem.getProductVariation, orderItem.getQuantity,"
-			+ "orderItem.getSubtotal],])")
-	public void saveOrderItem(@Param("orderItem") OrderItem orderItem);
-	
 	//tem que ver se não precisa de query
 	public List<Order> findByUser(User user);
 	

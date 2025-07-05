@@ -8,8 +8,8 @@ public record ProductCreateDTO(
 	float price,
 	String category,
 	String brand,
-	long user
-	//MultipartFile image
+	long user,
+	String image
 	) {
 
 }

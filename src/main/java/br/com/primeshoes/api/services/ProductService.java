@@ -16,6 +16,7 @@ import br.com.primeshoes.api.enuns.Role;
 import br.com.primeshoes.api.mappers.ProductMapper;
 import br.com.primeshoes.api.mappers.ProductVariationMapper;
 import br.com.primeshoes.api.repositories.ProductRepository;
+import br.com.primeshoes.api.repositories.ProductVariationRepository;
 import br.com.primeshoes.api.repositories.UserRepository;
 
 @Service
@@ -23,6 +24,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+    
+    @Autowired
+    private ProductVariationRepository productVariationRepository;
     
     private UserRepository userRepository;
     
@@ -39,7 +43,8 @@ public class ProductService {
     	}
 		Product product = ProductMapper.toEntity(productCreateDTO);
 		//mexe aqui oh
-		//product.setImageUrl(productCreateDTO.image().getName());
+		//mexe mais nao
+		product.setImageUrl(productCreateDTO.image());
 		
 		product.setUser(user);
 		return ProductMapper.toDTO(productRepository.save(product));
@@ -48,13 +53,14 @@ public class ProductService {
     public ProductVariationResponseDTO storeProductVariation(ProductVariationCreateDTO productVariationCreateDTO) {
 	
 		ProductVariation productVariation = ProductVariationMapper.toEntity(productVariationCreateDTO);
+		
 		Product product = productRepository.findById(productVariationCreateDTO.product()).orElseThrow(
 			()-> new RuntimeException("Producto não encontrado")
 			);
 			
 		productVariation.setProduct(product);
 		
-		productRepository.saveVariation(productVariation);
+		productVariationRepository.save(productVariation);
 		
 		return ProductVariationMapper.toDTO(productVariation);
     }
@@ -71,9 +77,9 @@ public class ProductService {
     
     
     public List<ProductVariationResponseDTO> listVariations(long id){
-    	return productRepository.findAllProductVariation(id).orElseThrow(
-    			(	)-> new RuntimeException("impossivel achar as variações")
-    			).stream().map(ProductVariationMapper::toDTO).toList();
+    	Product product = productRepository.findById(id).orElseThrow(
+    			()-> new RuntimeException("não achado produto"));
+    	return productVariationRepository.findByProduct(product).stream().map(ProductVariationMapper::toDTO).toList();
     }
     
     public ProductResponseDTO show(long id) {
@@ -88,6 +94,8 @@ public class ProductService {
     }
     
     public void destroyVariant(long id) {
-		productRepository.deleteVariant(id);
+    	ProductVariation pv = productVariationRepository.findById(id).orElseThrow(
+    			()-> new RuntimeException("VARIAÇÃO NÃO ENCONTRADA"));
+		productVariationRepository.delete(pv);
     }
 }

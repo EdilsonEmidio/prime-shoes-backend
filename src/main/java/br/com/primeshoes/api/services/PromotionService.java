@@ -1,5 +1,6 @@
 package br.com.primeshoes.api.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,12 @@ import org.springframework.stereotype.Service;
 import br.com.primeshoes.api.dtos.PromotionCreateDTO;
 import br.com.primeshoes.api.dtos.PromotionResponseDTO;
 import br.com.primeshoes.api.dtos.PromotionUpdateDTO;
+import br.com.primeshoes.api.entities.Product;
 import br.com.primeshoes.api.entities.ProductVariation;
 import br.com.primeshoes.api.entities.Promotion;
 import br.com.primeshoes.api.mappers.PromotionMapper;
 import br.com.primeshoes.api.repositories.ProductRepository;
+import br.com.primeshoes.api.repositories.ProductVariationRepository;
 import br.com.primeshoes.api.repositories.PromotionRepository;
 
 @Service
@@ -19,16 +22,21 @@ public class PromotionService {
 	
 	@Autowired
 	private PromotionRepository promotionRepository;
-	@Autowired
-	private ProductRepository productRepository;
 	
+	private ProductRepository productRepository;
+	private ProductVariationRepository variationRepository;
+	
+	public PromotionService(ProductVariationRepository variationRepository, ProductRepository productRepository) {
+		this.productRepository = productRepository;
+		this.variationRepository = variationRepository;
+	}
 	public PromotionResponseDTO save(PromotionCreateDTO promotionCreateDTO){
 		
 		Promotion promotion = PromotionMapper.toEntity(promotionCreateDTO);
 
 		
-		ProductVariation productVariation = productRepository.findProductVariation(promotionCreateDTO.productVariation()).orElseThrow(
-				()-> new RuntimeException("Produto não encontrado"));
+		ProductVariation productVariation = variationRepository.findById(promotionCreateDTO.productVariation())
+				.orElseThrow(()-> new RuntimeException("Produto não encontrado"));
 		
 		promotion.setProductVariation(productVariation);
 		
@@ -54,10 +62,18 @@ public class PromotionService {
 	
 	public List<PromotionResponseDTO> listProduct(long id_product){
 		
-		ProductVariation productVariation = productRepository.findProductVariation(id_product).orElseThrow(
+		Product product = productRepository.findById(id_product).orElseThrow(
 				()-> new RuntimeException("produto não encontrado"));
 		
-		List<PromotionResponseDTO> promotionResponseDTO = promotionRepository.findByProductVariation(productVariation).stream().map(PromotionMapper::toDTO).toList();
+		List<ProductVariation> productVariations = variationRepository.findByProduct(product);
+		
+		List<PromotionResponseDTO> promotionResponseDTO = new ArrayList<>();
+		
+		for(ProductVariation pv : productVariations) {
+			promotionResponseDTO.addAll(
+					promotionRepository.findByProductVariation(pv).stream().map(PromotionMapper::toDTO).toList());
+		}
+								
 		
 		return promotionResponseDTO;
 	}

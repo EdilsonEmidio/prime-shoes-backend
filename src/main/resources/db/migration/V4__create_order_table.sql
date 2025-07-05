@@ -1,6 +1,6 @@
 CREATE TABLE orders(
 	id BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	user_id BIGINT NOT NULL UNIQUE,
+	user_id BIGINT NOT NULL,
 	total_price FLOAT NOT NULL,
 	status VARCHAR(100) NOT NULL,
 	payment_method VARCHAR(100) NOT NULL,
@@ -11,8 +11,8 @@ CREATE TABLE orders(
 
 CREATE TABLE order_items(
 	id BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	order_id BIGINT NOT NULL UNIQUE,
-	product_variation_id BIGINT NOT NULL UNIQUE,
+	order_id BIGINT NOT NULL,
+	product_variation_id BIGINT NOT NULL,
 	quantity INT NOT NULL,
 	subtotal FLOAT NOT NULL,
 	FOREIGN KEY (order_id) REFERENCES orders(id),

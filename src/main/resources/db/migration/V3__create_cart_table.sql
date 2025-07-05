@@ -6,8 +6,8 @@ CREATE TABLE carts(
 );
 CREATE TABLE cart_items(
 	id BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-	product_variation_id BIGINT NOT NULL UNIQUE,
-	cart_id BIGINT NOT NULL UNIQUE,
+	product_variation_id BIGINT NOT NULL,
+	cart_id BIGINT NOT NULL,
 	quantity INT NOT NULL,
 	subtotal FLOAT NOT NULL,
 	FOREIGN KEY (product_variation_id) REFERENCES product_variations(id),

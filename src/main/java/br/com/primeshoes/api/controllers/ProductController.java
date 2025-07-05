@@ -18,7 +18,6 @@ import br.com.primeshoes.api.dtos.ProductResponseDTO;
 import br.com.primeshoes.api.dtos.ProductVariationCreateDTO;
 import br.com.primeshoes.api.dtos.ProductVariationResponseDTO;
 import br.com.primeshoes.api.services.ProductService;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api/products")
@@ -53,21 +52,20 @@ public class ProductController {
     }
     
     @GetMapping("/variation/{id}")
-    public ResponseEntity<List<ProductVariationResponseDTO>> listVariations(@PathParam("id") long id){
-    	System.out.println(id);
+    public ResponseEntity<List<ProductVariationResponseDTO>> listVariations(@PathVariable(value = "id") long id){
     	return new ResponseEntity<>(productService.listVariations(id), HttpStatus.OK);
     }
     
-    @GetMapping("/{id_product}")
+    @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> show(@PathVariable long id) {
 		try {
-		    return new ResponseEntity<>(productService.show(id), HttpStatus.FOUND);
+		    return new ResponseEntity<>(productService.show(id), HttpStatus.OK);
 		}catch(Exception e) {
 		    return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
     }
     
-    @DeleteMapping("/{id_product}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> destroy(@PathVariable long id) {
 		try {
 		    productService.destroy(id);
@@ -76,7 +74,7 @@ public class ProductController {
 		    return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
 		}
     }
-    @DeleteMapping("/variant/{id_product}")
+    @DeleteMapping("/variant/{id}")
     public ResponseEntity<String> destroyVariant(@PathVariable long id) {
 		try {
 		    productService.destroyVariant(id);
